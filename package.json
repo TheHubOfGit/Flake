@@ -1,0 +1,15 @@
+{
+  "name": "flake",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Blind voting for friend groups. Cancel plans without being the flake.",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev --port 5173 --live-reload",
+    "build": "echo 'Static site — no build step required'",
+    "preview": "wrangler pages dev ./public --port 5173"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
