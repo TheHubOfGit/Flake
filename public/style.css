@@ -34,6 +34,201 @@
 }
 
 /* ==========================================================================
+   Brutalist Theme Overrides
+   ========================================================================== */
+.theme-brutalist {
+  --bg: #000000;
+  --bg-deep: #000000;
+  --surface: #0a0a0a;
+  --surface-alt: #1a1a1a;
+  --accent: #CCFF00;
+  /* Neon green */
+  --accent-hover: #b3e600;
+  --accent-glow: rgba(204, 255, 0, 0.15);
+  --text: #FFFFFF;
+  --text-dim: #D1D1D1;
+  --text-muted: #999999;
+  --border: #FFFFFF;
+  /* High contrast sharp borders */
+  --danger: #FF0000;
+  --success: #CCFF00;
+
+  /* Typography override: Use the Bricolage Grotesque everywhere, uppercase */
+  --font-body: 'Bricolage Grotesque', sans-serif;
+
+  /* Radii - Sharp edges everywhere */
+  --radius-lg: 0;
+  --radius-md: 0;
+  --radius-sm: 0;
+}
+
+.theme-brutalist h1,
+.theme-brutalist h2,
+.theme-brutalist h3,
+.theme-brutalist .btn,
+.theme-brutalist .form-label,
+.theme-brutalist .brand,
+.theme-brutalist .room-code-char,
+.theme-brutalist .group-size-number {
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.theme-brutalist .card,
+.theme-brutalist .btn,
+.theme-brutalist .form-input,
+.theme-brutalist .flake-meter,
+.theme-brutalist .share-link,
+.theme-brutalist .room-code,
+.theme-brutalist .group-size-row {
+  border: 2px solid var(--border);
+  box-shadow: none;
+}
+
+.theme-brutalist .btn-primary {
+  color: #000;
+}
+
+.theme-brutalist .btn-flake {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+}
+
+.theme-brutalist .btn-flake:hover {
+  background: #000;
+  color: #FFF;
+  border-color: #FFF;
+  box-shadow: none;
+}
+
+/* ==========================================================================
+   Big Theme Overrides
+   ========================================================================== */
+.theme-big {
+  --bg: #0A0500;
+  --bg-deep: #16110D;
+  --surface: #1C1C1E;
+  --surface-alt: #2D2D2F;
+  --accent: #FF7A2F;
+  --accent-hover: #FF9456;
+  --accent-glow: rgba(255, 122, 47, 0.15);
+  --text: #FFFFFF;
+  --text-dim: #A8A8A8;
+  --text-muted: #787878;
+  --border: #333333;
+  --danger: #FF7A2F;
+  --success: #CCFF00;
+
+  /* Typography */
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+
+  /* Radii - Mix of squircle/pill */
+  --radius-lg: 1rem;
+  --radius-md: 0.75rem;
+  --radius-sm: 0.5rem;
+}
+
+/* Base resets for Big theme */
+.theme-big h1,
+.theme-big h2,
+.theme-big h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.theme-big .brand-accent {
+  color: var(--accent);
+}
+
+.theme-big .brand {
+  color: var(--accent);
+}
+
+.theme-big .section-label {
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* Dashed cards */
+.theme-big .card {
+  background: transparent;
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius-lg);
+}
+
+/* Except group size, which is solid dark grey */
+.theme-big .group-size-row {
+  background: var(--surface);
+  border: none;
+  border-radius: var(--radius-lg);
+}
+
+.theme-big .room-code {
+  background: transparent;
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.theme-big .room-code-char {
+  color: var(--accent);
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+/* Pill buttons */
+.theme-big .btn-flake {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 1.125rem;
+  padding: 1.25rem;
+}
+
+.theme-big .btn-flake:hover {
+  background: var(--accent-glow);
+  color: var(--accent);
+  box-shadow: none;
+  transform: none;
+}
+
+/* Input styling */
+.theme-big .form-input {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text);
+}
+
+.theme-big .form-label {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+}
+
+.theme-big .share-link {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.theme-big .share-link-copy {
+  background: var(--surface-alt);
+  color: var(--text);
+  border-left: 1px solid var(--border);
+}
+
+/* ==========================================================================
    Reset & Base
    ========================================================================== */
 
@@ -319,11 +514,13 @@ p {
 
 .form-input-number {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .form-input-number::-webkit-outer-spin-button,
 .form-input-number::-webkit-inner-spin-button {
   -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 

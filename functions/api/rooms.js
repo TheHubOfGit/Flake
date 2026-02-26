@@ -4,7 +4,7 @@ export async function onRequestPost(context) {
 
   try {
     const body = await context.request.json();
-    const { name, groupSize } = body;
+    const { name, groupSize, theme } = body;
 
     if (!name || !groupSize) {
       return json({ error: 'name and groupSize are required' }, 400);
@@ -21,6 +21,7 @@ export async function onRequestPost(context) {
       name: name.trim(),
       code,
       groupSize: parseInt(groupSize, 10),
+      theme: theme || 'default',
       createdAt: new Date().toISOString(),
       flakers: [],
     };

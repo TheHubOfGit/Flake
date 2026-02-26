@@ -91,6 +91,7 @@ const icons = {
 // VIEW: Home
 // ---------------------------------------------------------------------------
 function renderHome() {
+  document.body.className = '';
   app.innerHTML = `
     <div class="page">
       <div class="hero stagger">
@@ -131,6 +132,7 @@ function renderHome() {
 // VIEW: Create
 // ---------------------------------------------------------------------------
 function renderCreate() {
+  document.body.className = '';
   app.innerHTML = `
     <nav class="nav">
       <button class="nav-back" id="nav-back">${icons.arrow} Back</button>
@@ -152,6 +154,15 @@ function renderCreate() {
             <input class="form-input form-input-number" id="group-size" type="number" min="2" max="50" value="3" required />
             <span class="form-hint">This can be changed later by anyone in the group.</span>
           </div>
+          <div class="form-group">
+            <label class="form-label" for="room-theme">Vibe / Theme (Optional)</label>
+            <select class="form-input" id="room-theme">
+              <span class="form-hint">Set the aesthetic for the event.</span>
+              <option value="default">Minimal</option>
+              <option value="brutalist">Brutalist</option>
+              <option value="big">Big</option>
+            </select>
+          </div>
           <div id="create-error"></div>
           <button class="btn btn-primary" type="submit" id="btn-submit-create">Create & Get Link</button>
         </form>
@@ -169,18 +180,30 @@ function renderCreate() {
 
     const name = document.getElementById('event-name').value.trim();
     const groupSize = parseInt(document.getElementById('group-size').value, 10);
+    const theme = document.getElementById('room-theme').value;
     if (!name || !groupSize) return;
 
     btn.disabled = true;
     btn.textContent = 'Creating...';
 
     try {
-      const data = await api('/rooms', { method: 'POST', body: { name, groupSize } });
+      const data = await api('/rooms', { method: 'POST', body: { name, groupSize, theme } });
       navigate(`/room/${data.code}`);
     } catch (err) {
       errorEl.innerHTML = `<div class="error-msg">${escapeHtml(err.message)}</div>`;
       btn.disabled = false;
       btn.textContent = 'Create & Get Link';
+    }
+  });
+
+  document.getElementById('room-theme').addEventListener('change', (e) => {
+    const theme = e.target.value;
+    if (theme === 'brutalist') {
+      document.body.className = 'theme-brutalist';
+    } else if (theme === 'big') {
+      document.body.className = 'theme-big';
+    } else {
+      document.body.className = '';
     }
   });
 }
@@ -226,6 +249,15 @@ async function loadRoom(code) {
     document.getElementById('room-error').style.display = 'none';
     const content = document.getElementById('room-content');
     content.style.display = 'block';
+
+    // Apply theme
+    if (data.theme === 'brutalist') {
+      document.body.className = 'theme-brutalist';
+    } else if (data.theme === 'big') {
+      document.body.className = 'theme-big';
+    } else {
+      document.body.className = '';
+    }
 
     const shareUrl = `${window.location.origin}/#/room/${code}`;
     const isFlaker = data.isFlaker;
