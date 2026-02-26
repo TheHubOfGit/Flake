@@ -315,6 +315,11 @@ function renderFlakeStatus(data, isFlaker, code) {
     `;
   }
 
+  // Only show status to flakers
+  if (!isFlaker) {
+    return '';
+  }
+
   // Progress bar
   const pct = Math.min((flakeCount / groupSize) * 100, 100);
 
@@ -325,9 +330,6 @@ function renderFlakeStatus(data, isFlaker, code) {
     </div>
     <div class="flake-meter-label">
       <span>${flakeCount} of ${groupSize} want to flake</span>
-      ${flakeCount === 0 && !isFlaker
-      ? '<span class="text-muted">No flakers yet</span>'
-      : ''}
     </div>
   `;
 }
@@ -448,12 +450,12 @@ async function refreshRoom(code) {
   try {
     const data = await api(`/rooms/${code}${tokenParam}`);
 
-    // Update flake meter without full re-render
+    // Update flake meter without full re-render (only if we are a flaker or all flaked)
     const meterBar = document.querySelector('.flake-meter-bar');
     const meterLabel = document.querySelector('.flake-meter-label span');
     const sizeVal = document.getElementById('group-size-val');
 
-    if (meterBar && meterLabel) {
+    if (meterBar && meterLabel && (data.isFlaker || data.allFlaked)) {
       const pct = Math.min((data.flakeCount / data.groupSize) * 100, 100);
       meterBar.style.width = `${pct}%`;
       meterLabel.textContent = `${data.flakeCount} of ${data.groupSize} want to flake`;

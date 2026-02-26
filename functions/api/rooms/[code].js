@@ -26,7 +26,7 @@ export async function onRequestGet(context) {
         name: room.name,
         code: room.code,
         groupSize: room.groupSize,
-        flakeCount: flakers.length,
+        flakeCount: (isFlaker || flakers.length >= room.groupSize) ? flakers.length : 0,
         allFlaked: flakers.length >= room.groupSize,
         isFlaker,
         myName: me?.name || null,
