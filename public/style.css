@@ -5,23 +5,23 @@
 
 :root {
   /* Palette */
-  --bg:           #1C1917;
-  --bg-deep:      #141210;
-  --surface:      #292524;
-  --surface-alt:  #322E2B;
-  --accent:       #C2703E;
+  --bg: #1C1917;
+  --bg-deep: #141210;
+  --surface: #292524;
+  --surface-alt: #322E2B;
+  --accent: #C2703E;
   --accent-hover: #D4854F;
-  --accent-glow:  rgba(194, 112, 62, 0.15);
-  --text:         #F2E8DC;
-  --text-dim:     #A8A29E;
-  --text-muted:   #78716C;
-  --border:       rgba(242, 232, 220, 0.08);
-  --danger:       #E85D4A;
-  --success:      #5EAD6E;
+  --accent-glow: rgba(194, 112, 62, 0.15);
+  --text: #F2E8DC;
+  --text-dim: #A8A29E;
+  --text-muted: #78716C;
+  --border: rgba(242, 232, 220, 0.08);
+  --danger: #E85D4A;
+  --success: #5EAD6E;
 
   /* Typography */
   --font-heading: 'Bricolage Grotesque', serif;
-  --font-body:    'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
 
   /* Radii */
   --radius-lg: 1.25rem;
@@ -37,7 +37,9 @@
    Reset & Base
    ========================================================================== */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -92,7 +94,9 @@ a:hover {
    Typography
    ========================================================================== */
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--font-heading);
   letter-spacing: -0.02em;
   line-height: 1.15;
@@ -263,34 +267,6 @@ p {
   background: rgba(242, 232, 220, 0.05);
 }
 
-.btn-vote {
-  padding: 1.25rem 2rem;
-  font-size: 1.125rem;
-  border-radius: var(--radius-lg);
-  flex: 1;
-}
-
-.btn-in {
-  background: var(--success);
-  color: #fff;
-}
-
-.btn-in:hover {
-  background: #6BBF7B;
-  box-shadow: 0 8px 30px rgba(94, 173, 110, 0.25);
-}
-
-.btn-out {
-  background: var(--surface-alt);
-  color: var(--text);
-  border: 1px solid var(--border);
-}
-
-.btn-out:hover {
-  border-color: var(--danger);
-  color: var(--danger);
-}
-
 .btn[disabled] {
   opacity: 0.4;
   cursor: not-allowed;
@@ -388,12 +364,29 @@ p {
   animation: popIn 0.4s var(--ease-out) both;
 }
 
-.room-code-char:nth-child(1) { animation-delay: 0.05s; }
-.room-code-char:nth-child(2) { animation-delay: 0.1s; }
-.room-code-char:nth-child(3) { animation-delay: 0.15s; }
-.room-code-char:nth-child(4) { animation-delay: 0.2s; }
-.room-code-char:nth-child(5) { animation-delay: 0.25s; }
-.room-code-char:nth-child(6) { animation-delay: 0.3s; }
+.room-code-char:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.room-code-char:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.room-code-char:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.room-code-char:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.room-code-char:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.room-code-char:nth-child(6) {
+  animation-delay: 0.3s;
+}
 
 /* ==========================================================================
    Share Section
@@ -445,30 +438,183 @@ p {
 }
 
 /* ==========================================================================
-   Participant List
+   Group Size Controls
    ========================================================================== */
 
-.participant-list {
+.group-size-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.group-size-display {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.group-size-number {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: var(--text);
+}
+
+.group-size-label {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.group-size-controls {
+  display: flex;
+  gap: 0.375rem;
+}
+
+.btn-round {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+  color: var(--text);
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  font-family: var(--font-body);
+  line-height: 1;
+}
+
+.btn-round:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.btn-round:active {
+  transform: scale(0.9);
+}
+
+.btn-round[disabled] {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ==========================================================================
+   Flake Meter (progress bar)
+   ========================================================================== */
+
+.flake-meter {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-deep);
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.flake-meter-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 4px;
+  transition: width 0.6s var(--ease-out);
+  min-width: 0;
+}
+
+.flake-meter-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  color: var(--text-dim);
+}
+
+/* ==========================================================================
+   Flake Action Card
+   ========================================================================== */
+
+.flake-card {
+  border: 1px dashed rgba(194, 112, 62, 0.25);
+  background: rgba(194, 112, 62, 0.04);
+}
+
+.btn-flake {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.0625rem;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.75rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  line-height: 1;
+  width: 100%;
+  background: transparent;
+  color: var(--accent);
+}
+
+.btn-flake:hover {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(194, 112, 62, 0.25);
+}
+
+.btn-flake:active {
+  transform: scale(0.97) translateY(1px);
+}
+
+.btn-flake[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ==========================================================================
+   Flaker Reveal Card
+   ========================================================================== */
+
+.flaker-reveal-card {
+  border: 1px solid rgba(194, 112, 62, 0.2);
+  background: rgba(194, 112, 62, 0.05);
+}
+
+.flaker-reveal-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.flaker-list {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
-.participant-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.875rem 0;
+.flaker-item {
+  padding: 0.75rem 0;
   border-bottom: 1px solid var(--border);
-  animation: slideUp 0.4s var(--ease-out) both;
+  animation: slideUp 0.3s var(--ease-out) both;
 }
 
-.participant-item:last-child {
+.flaker-item:last-child {
   border-bottom: none;
+  padding-bottom: 0;
 }
 
-.participant-name {
+.flaker-name {
   font-weight: 600;
   font-size: 0.9375rem;
 }
@@ -479,76 +625,23 @@ p {
   font-weight: 600;
 }
 
-.participant-status {
-  font-size: 0.8125rem;
-  color: var(--text-muted);
-}
-
-.participant-status.voted {
-  color: var(--success);
-}
-
-.waiting-slot {
-  color: var(--text-muted);
-  font-style: italic;
-  font-size: 0.875rem;
-  padding: 0.875rem 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.waiting-slot:last-child {
-  border-bottom: none;
-}
-
 /* ==========================================================================
-   Results
+   Flake Revelation (everyone flaked)
    ========================================================================== */
 
-.result-container {
-  text-align: center;
-  padding: 1rem 0;
-}
-
-.result-icon {
-  font-size: 4rem;
-  margin-bottom: 1rem;
+.flake-revelation {
+  border-color: rgba(194, 112, 62, 0.3);
+  background: rgba(194, 112, 62, 0.06);
   animation: bounceIn 0.6s var(--ease-out);
-  line-height: 1;
 }
 
-.result-headline {
-  margin-bottom: 0.75rem;
+.flake-revelation-inner {
+  padding: 0.5rem 0;
 }
 
-.result-message {
-  margin: 0 auto;
-  text-align: center;
-}
-
-.result-flakers {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border);
-}
-
-.result-flakers-title {
-  font-size: 0.8125rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.75rem;
-}
-
-.flaker-tag {
-  display: inline-block;
-  background: var(--surface-alt);
-  color: var(--text);
-  padding: 0.375rem 0.875rem;
-  border-radius: 2rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  margin: 0.25rem;
-  border: 1px solid var(--border);
+.revelation-icon {
+  margin-bottom: 0.25rem;
+  animation: bounceIn 0.8s var(--ease-out);
 }
 
 /* ==========================================================================
@@ -571,8 +664,13 @@ p {
   animation: pulse 1.4s ease-in-out infinite;
 }
 
-.loading-dot:nth-child(2) { animation-delay: 0.2s; }
-.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+.loading-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
 
 .reveal-mask {
   animation: revealSlide 0.8s var(--ease-out) 0.3s both;
@@ -582,22 +680,68 @@ p {
    Utility
    ========================================================================== */
 
-.stack-xs  { display: flex; flex-direction: column; gap: 0.5rem; }
-.stack-sm  { display: flex; flex-direction: column; gap: 0.75rem; }
-.stack     { display: flex; flex-direction: column; gap: 1rem; }
-.stack-md  { display: flex; flex-direction: column; gap: 1.5rem; }
-.stack-lg  { display: flex; flex-direction: column; gap: 2rem; }
+.stack-xs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-.row       { display: flex; gap: 1rem; }
+.stack-sm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
 
-.text-center { text-align: center; }
-.text-dim    { color: var(--text-dim); }
-.text-muted  { color: var(--text-muted); }
-.text-accent { color: var(--accent); }
-.text-sm     { font-size: 0.875rem; }
-.text-xs     { font-size: 0.75rem; }
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
-.mt-auto { margin-top: auto; }
+.stack-md {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stack-lg {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-dim {
+  color: var(--text-dim);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-accent {
+  color: var(--accent);
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.mt-auto {
+  margin-top: auto;
+}
 
 .divider {
   width: 100%;
@@ -711,62 +855,150 @@ p {
    ========================================================================== */
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes popIn {
-  from { opacity: 0; transform: scale(0.6); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes bounceIn {
-  0%   { opacity: 0; transform: scale(0.3); }
-  50%  { transform: scale(1.08); }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes pulse {
-  0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
-  40%           { opacity: 1; transform: scale(1); }
+
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes revealSlide {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes toastIn {
-  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 @keyframes toastOut {
-  from { opacity: 1; transform: translateX(-50%) translateY(0); }
-  to   { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Staggered children animation utility */
-.stagger > * {
+.stagger>* {
   animation: slideUp 0.4s var(--ease-out) both;
 }
-.stagger > *:nth-child(1) { animation-delay: 0.05s; }
-.stagger > *:nth-child(2) { animation-delay: 0.1s; }
-.stagger > *:nth-child(3) { animation-delay: 0.15s; }
-.stagger > *:nth-child(4) { animation-delay: 0.2s; }
-.stagger > *:nth-child(5) { animation-delay: 0.25s; }
-.stagger > *:nth-child(6) { animation-delay: 0.3s; }
-.stagger > *:nth-child(7) { animation-delay: 0.35s; }
-.stagger > *:nth-child(8) { animation-delay: 0.4s; }
+
+.stagger>*:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.stagger>*:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.stagger>*:nth-child(3) {
+  animation-delay: 0.15s;
+}
+
+.stagger>*:nth-child(4) {
+  animation-delay: 0.2s;
+}
+
+.stagger>*:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+.stagger>*:nth-child(6) {
+  animation-delay: 0.3s;
+}
+
+.stagger>*:nth-child(7) {
+  animation-delay: 0.35s;
+}
+
+.stagger>*:nth-child(8) {
+  animation-delay: 0.4s;
+}
 
 /* ==========================================================================
    Responsive

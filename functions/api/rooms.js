@@ -4,19 +4,17 @@ export async function onRequestPost(context) {
 
   try {
     const body = await context.request.json();
-    const { name, groupSize, creatorName } = body;
+    const { name, groupSize } = body;
 
-    if (!name || !groupSize || !creatorName) {
-      return json({ error: 'name, groupSize, and creatorName are required' }, 400);
+    if (!name || !groupSize) {
+      return json({ error: 'name and groupSize are required' }, 400);
     }
 
-    if (groupSize < 2 || groupSize > 20) {
-      return json({ error: 'groupSize must be between 2 and 20' }, 400);
+    if (groupSize < 2 || groupSize > 50) {
+      return json({ error: 'groupSize must be between 2 and 50' }, 400);
     }
 
     const code = generateCode();
-    const creatorId = crypto.randomUUID();
-    const creatorToken = crypto.randomUUID();
 
     const room = {
       id: crypto.randomUUID(),
@@ -24,35 +22,21 @@ export async function onRequestPost(context) {
       code,
       groupSize: parseInt(groupSize, 10),
       createdAt: new Date().toISOString(),
-      participants: [
-        {
-          id: creatorId,
-          name: creatorName.trim(),
-          token: creatorToken,
-          joinedAt: new Date().toISOString(),
-        },
-      ],
-      votes: {},
+      flakers: [],
     };
 
     await env.FLAKE_ROOMS.put(`room:${code}`, JSON.stringify(room), {
-      // Auto-expire rooms after 24 hours
       expirationTtl: 86400,
     });
 
-    return json({
-      code: room.code,
-      roomName: room.name,
-      creatorToken,
-      participantId: creatorId,
-    });
+    return json({ code: room.code, roomName: room.name });
   } catch (err) {
     return json({ error: 'Failed to create room' }, 500);
   }
 }
 
 function generateCode() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no I/O/0/1 to avoid confusion
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let code = '';
   for (let i = 0; i < 6; i++) {
     code += chars[Math.floor(Math.random() * chars.length)];

@@ -1,5 +1,5 @@
 // GET /api/rooms/:code — Get room info
-// POST /api/rooms/:code — (unused, returns 405)
+// Privacy: flaker names are only visible if the requester is also a flaker
 export async function onRequestGet(context) {
     const { env, params } = context;
     const code = params.code?.toUpperCase();
@@ -16,32 +16,32 @@ export async function onRequestGet(context) {
     }
 
     const room = JSON.parse(raw);
+    const flakers = room.flakers || [];
 
-    // Find the requesting participant
-    const me = token
-        ? room.participants.find((p) => p.token === token)
-        : null;
+    // Check if requester is a flaker
+    const me = token ? flakers.find((f) => f.token === token) : null;
+    const isFlaker = !!me;
 
-    const votedCount = Object.keys(room.votes).length;
-    const allVoted = votedCount === room.groupSize &&
-        room.participants.length === room.groupSize;
-
-    return json({
+    const response = {
         name: room.name,
         code: room.code,
         groupSize: room.groupSize,
-        participantCount: room.participants.length,
-        participants: room.participants.map((p) => ({
-            id: p.id,
-            name: p.name,
-            hasVoted: !!room.votes[p.id],
-        })),
-        votedCount,
-        allVoted,
-        myId: me?.id || null,
-        myVote: me ? room.votes[me.id] || null : null,
+        flakeCount: flakers.length,
+        allFlaked: flakers.length >= room.groupSize,
+        isFlaker,
+        myName: me?.name || null,
         createdAt: room.createdAt,
-    });
+    };
+
+    // Only reveal flaker names to other flakers
+    if (isFlaker) {
+        response.flakers = flakers.map((f) => ({
+            name: f.name,
+            votedAt: f.votedAt,
+        }));
+    }
+
+    return json(response);
 }
 
 function json(data, status = 200) {

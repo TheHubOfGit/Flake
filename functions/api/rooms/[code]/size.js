@@ -1,15 +1,15 @@
-// POST /api/rooms/:code/vote — Vote to flake
-// This is the only vote action. Voting = "I want to flake."
+// POST /api/rooms/:code/size — Update the group size
+// Anyone can update this (no auth required)
 export async function onRequestPost(context) {
     const { env, params } = context;
     const code = params.code?.toUpperCase();
 
     try {
         const body = await context.request.json();
-        const { name } = body;
+        const { groupSize } = body;
 
-        if (!name) {
-            return json({ error: 'name is required' }, 400);
+        if (!groupSize || groupSize < 2 || groupSize > 50) {
+            return json({ error: 'groupSize must be between 2 and 50' }, 400);
         }
 
         const raw = await env.FLAKE_ROOMS.get(`room:${code}`);
@@ -18,34 +18,31 @@ export async function onRequestPost(context) {
         }
 
         const room = JSON.parse(raw);
-        const trimmedName = name.trim();
-
-        // Check for duplicate names
-        if (room.flakers.some((f) => f.name.toLowerCase() === trimmedName.toLowerCase())) {
-            return json({ error: 'Someone with that name already voted. Use a different name.' }, 409);
-        }
-
-        const token = crypto.randomUUID();
-
-        room.flakers.push({
-            id: crypto.randomUUID(),
-            name: trimmedName,
-            token,
-            votedAt: new Date().toISOString(),
-        });
+        room.groupSize = parseInt(groupSize, 10);
 
         await env.FLAKE_ROOMS.put(`room:${code}`, JSON.stringify(room), {
             expirationTtl: 86400,
         });
 
         return json({
-            token,
+            groupSize: room.groupSize,
             flakeCount: room.flakers.length,
             allFlaked: room.flakers.length >= room.groupSize,
         });
     } catch (err) {
-        return json({ error: 'Failed to cast vote' }, 500);
+        return json({ error: 'Failed to update group size' }, 500);
     }
+}
+
+// Handle OPTIONS for CORS preflight
+export async function onRequestOptions() {
+    return new Response(null, {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+        },
+    });
 }
 
 function json(data, status = 200) {
