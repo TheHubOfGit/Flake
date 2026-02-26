@@ -4,4 +4,4 @@ pages_build_output_dir = "./public"
 
 [[kv_namespaces]]
 binding = "FLAKE_ROOMS"
-id = "placeholder-id"
+id = "40eef95951a548519f6fb0a29cf03591"
